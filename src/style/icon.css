@@ -75,22 +75,3 @@
 .toutiao-fenxiang:before {
   content: "\e615";
 }
-.nav-bar {
-  background-color: #3296fa !important;
-}
-.nav-bar .van-icon {
-  color: #fff !important;
-}
-.nav-bar .van-nav-bar__title {
-  color: #fff !important;
-}
-.van-cell .van-button--primary {
-  background-color: #ededed !important;
-  color: #4b7470;
-}
-.van-button--primary {
-  border: none !important;
-}
-body {
-  background-color: #f5f7f9;
-}

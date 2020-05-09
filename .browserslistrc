@@ -1,3 +1,8 @@
+# 兼容到大于1%用户使用的浏览器
 > 1%
+# 兼容最后两个版本
 last 2 versions
+# 没有死掉的浏览器
 not dead
+Android >= 4.0
+iOS >= 8
