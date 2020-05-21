@@ -1,5 +1,16 @@
 <template>
-  <div class=''></div>
+  <div class=''>
+    <van-cell-group>
+      <van-cell title="单元格" value="内容" />
+      <van-cell title="单元格" value="内容" label="描述信息" />
+    </van-cell-group>
+    <van-cell title="单元格" is-link />
+<van-cell title="单元格" is-link value="内容" />
+<van-cell title="单元格" is-link arrow-direction="down" value="内容" />
+<van-panel title="标题" desc="描述信息" status="状态">
+  <div>内容</div>
+</van-panel>
+  </div>
 </template>
 <script>
 export default {
