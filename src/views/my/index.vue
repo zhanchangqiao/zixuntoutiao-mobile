@@ -18,7 +18,7 @@
             <span class="num">{{msg.name}}</span>
           </van-grid-item>
           <van-grid-item style="flex-basis:30%">
-            <van-button size="small" type="primary" round
+            <van-button size="small" type="primary" round to="user/profile"
             >编辑资料</van-button>
           </van-grid-item>
         </van-grid>
@@ -66,7 +66,7 @@
       <van-grid-item icon-prefix="toutiao"  icon="lishi" text="历史" style="color: orange"/>
     </van-grid>
     <van-cell class="mar" title="消息通知" is-link />
-    <van-cell class="mar" title="小智同学" is-link />
+    <van-cell class="mar" title="小智同学" is-link to="/userchat"/>
     <van-cell v-if="user" class="mar" title="退出登录" style="text-align:center;color: red" @click="onlogout"/>
   </div>
 </template>

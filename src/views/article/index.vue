@@ -36,16 +36,24 @@
     >
       正文结束
     </van-divider>
-    <comment-list :articleid="articleId"/>
+    <comment-list :articleid="articleId" :list="commentList" @itemclick="onpostreply"/>
     </div>
     <van-tabbar class="footbar">
-      <van-button round class="btn" type="info" size="small">写评论</van-button>
+      <van-button round class="btn" type="info" size="small" @click="postshow = !postshow">写评论</van-button>
       <van-icon class-prefix="toutiao" name="wenda" />
       <!-- 收藏 -->
       <van-icon :name="article.is_collected ? 'star' : 'star-o'" :style="{color:(article.is_collected ? 'yellow' : '')}"  @click="oncollected" :loading="true"/>
       <!-- 点赞 -->
       <van-icon :name="article.attitude === 1 ? 'good-job' : 'good-job-o'" :style="{color:(article.attitude === 1 ? 'orange' : '')}"  @click="onlikings"/>
     </van-tabbar>
+    <!-- 下面是发布评论弹出组件 -->
+    <van-popup v-model="postshow" position="bottom" :style="{ height: '14%' }">
+      <post-comment :artid="article.art_id" @input="onpost"/>
+    </van-popup>
+    <!-- 下面是回复评论的组件 -->
+    <van-popup v-model="replyshow" position="bottom" :style="{ height: '60%' }">
+      <comment-reply :comment="commentreply" @close="replyshow = false" :articleId="articleId"/>
+    </van-popup>
   </div>
 </template>
 <script>
@@ -53,6 +61,8 @@ import './github-markdown.css'
 import { Getarticle, Setfollowimg, Delfollowimg, Dellikings, Setlikings, Setcollected, Delcollected } from '@/api/article.js'
 import { ImagePreview } from 'vant'
 import CommentList from './components/comment-list.vue'
+import PostComment from './components/post-comment.vue'
+import CommentReply from './components/comment-reply.vue'
 export default {
   name: 'Article',
   props: {
@@ -62,12 +72,18 @@ export default {
     }
   },
   components: {
-    CommentList
+    CommentList,
+    PostComment,
+    CommentReply
   },
   data () {
     return {
       article: [],
-      followimgloading: false
+      followimgloading: false,
+      postshow: false,
+      replyshow: false,
+      commentList: [],
+      commentreply: {}
     }
   },
   computed: {
@@ -148,6 +164,20 @@ export default {
         message: `${this.article.attitude === 1 ? '' : '取消'}点赞成功`,
         type: 'success'
       })
+    },
+    // 发布成功事件
+    onpost (data) {
+      // 子组件传递发布成功的返回值，然后添加到评论列表中，
+      // 然后传递给评论子组件渲染
+      this.commentList.unshift(data)
+      // 评论数量++
+      // 关闭界面
+      this.postshow = false
+    },
+    // 点击回复事件
+    onpostreply (data) {
+      this.commentreply = data
+      this.replyshow = true
     }
   },
   mounted () {

@@ -57,3 +57,20 @@ export const Delcollected = (id) => {
     url: `/app/v1_0/article/collections/${id}`
   })
 }
+// 对文章评论点赞
+export const Setcommentlikings = (id) => {
+  return request({
+    method: 'post',
+    url: '/app/v1_0/comment/likings',
+    data: {
+      target: id
+    }
+  })
+}
+// 取消对文章评论点赞
+export const Delcommentlikings = (id) => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/comment/likings/${id}`
+  })
+}

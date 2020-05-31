@@ -21,6 +21,28 @@ export const Getuser = () => {
     url: '/app/v1_0/user'
   })
 }
+// 获取当前登录用户的个人资料
+export const Getuserprofile = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/user/profile'
+  })
+}
+// 修改当前登录用户的个人资料
+export const Updatauserprofile = (data) => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/profile',
+    data
+  })
+}
+export const Updatauserphoto = (data) => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/photo',
+    data
+  })
+}
 // 获取用户的频道了列表
 export const Getchannel = () => {
   return request({

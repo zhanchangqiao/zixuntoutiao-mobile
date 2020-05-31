@@ -1,33 +1,42 @@
 <template>
   <div class=''>
+    <van-cell title="全部评论"></van-cell>
     <van-list
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <van-cell v-for="(item,index) in commentlist" :key="index" :title="item.content">
-      </van-cell>
+    <comment-item v-for="(item,index) in list" :key="index" :item="item" @itemclick="$emit('itemclick', $event)"/>
     </van-list>
   </div>
 </template>
 <script>
 import { Getcomments } from '@/api/comments.js'
+import CommentItem from './comment-item.vue'
 export default {
   name: 'Commentlist',
   props: {
     articleid: {
       type: [String, Number, Object],
       required: true
+    },
+    aorc: {
+      type: String,
+      default: 'a'
+    },
+    list: {
+      type: Array,
+      default: () => []
     }
   },
   components: {
+    CommentItem
   },
   data () {
     return {
       offset: null,
       limit: 10,
-      list: [],
       loading: false,
       finished: false,
       commentlist: []
@@ -36,19 +45,19 @@ export default {
   computed: {
   },
   created () {
-    this.onLoad()
+    // this.onLoad()
   },
   methods: {
     async onLoad () {
       const res = await Getcomments({
-        type: 'a',
-        source: this.articleid,
+        type: this.aorc,
+        source: this.articleid.toString(),
         offset: this.offset,
         limit: this.limit
       })
       console.log(res)
       const result = res.data.data
-      this.commentlist.push(...result.results)
+      this.list.push(...result.results)
       if (result.results.length === 0) {
         // 请求完了
         this.finished = true

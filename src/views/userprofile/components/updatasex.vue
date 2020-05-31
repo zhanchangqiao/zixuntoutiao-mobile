@@ -1,39 +1,48 @@
 <template>
   <div class=''>
-    <keep-alive>
-      <router-view />
-    </keep-alive>
-    <van-tabbar v-model="active" router>
-      <van-tabbar-item icon-prefix="toutiao" icon="shouye" to="/">
-        <span>首页</span>
-      </van-tabbar-item>
-      <van-tabbar-item
-      icon-prefix="toutiao" icon="wenda" to="/qa">问答</van-tabbar-item>
-      <van-tabbar-item
-      icon-prefix="toutiao"
-      icon="shipin" to="/vadio">视频</van-tabbar-item>
-      <van-tabbar-item
-      icon-prefix="toutiao"
-      icon="wode" to="/my">我的</van-tabbar-item>
-    </van-tabbar>
+    <van-picker
+      title="选择性别"
+      show-toolbar
+      :columns="columns"
+      @confirm="onConfirm"
+      :default-index="value"
+      :loading="loading"
+    />
   </div>
 </template>
 <script>
+import { Updatauserprofile } from '@/api/user.js'
 export default {
-  name: 'Layoutindex',
+  name: 'Updatasex',
   components: {
+  },
+  props: {
+    value: {
+      type: [String, Number],
+      required: true
+    }
   },
   data () {
     return {
-      active: 0
+      columns: ['男', '女'],
+      loading: false
     }
   },
   computed: {
   },
   methods: {
+    async onConfirm (value, index) {
+      console.log(index)
+      this.loading = true
+      await Updatauserprofile({
+        gender: index
+      })
+      this.$emit('input', index)
+      this.$emit('close')
+      this.loading = false
+    }
   },
   mounted () {
-    this.$store.commit('setcache')
   },
   beforeCreate () {}, // 生命周期 - 创建之前
   beforeMount () {}, // 生命周期 - 挂载之前

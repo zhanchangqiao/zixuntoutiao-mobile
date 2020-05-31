@@ -90,8 +90,11 @@ export default {
         console.log(res)
         this.$toast.success('登录成功')
         // 把token等数据放到Vuex容器中
+        // 设置user
+        // 清除缓存
         this.$store.commit('setuser', res.data.data)
-        this.$router.push('/my')
+        this.$store.commit('delcache')
+        this.$router.push(this.$route.query.redirect || '/')
       } catch (err) {
         console.log(err)
         this.$toast.fail('登录失败，手机号或验证码错误')
